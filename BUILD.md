@@ -1,17 +1,32 @@
+On Linux, install the development packages for FreeType, Cairo, and GLib. For
+example, on Ubuntu / Debian, you would do:
 
-# Harfbuzz
+    $ sudo apt-get install meson pkg-config ragel gtk-doc-tools gcc g++ libfreetype6-dev libglib2.0-dev libcairo2-dev
 
-## 构建Release
+whereas on Fedora, RHEL, CentOS, and other Red Hat based systems you would do:
 
-```bash
-> cmake -B build -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=true -DCMAKE_INSTALL_PREFIX=D:/devtools/harfbuzz.8.3.0
-> cd build
-> ninja
-> ninja install
-```
+    $ sudo dnf install meson pkgconfig gtk-doc gcc gcc-c++ freetype-devel glib2-devel cairo-devel
 
-## 构建Debug
+and on ArchLinux and Manjaro:
 
-```bash
-> cmake -B build -G Ninja -DCMAKE_BUILD_TYPE=Debug -DBUILD_SHARED_LIBS=true -DCMAKE_INSTALL_PREFIX=D:/devtools/harfbuzz.8.3.0
->
+    $ sudo pacman -Suy meson pkg-config ragel gcc freetype2 glib2 cairo
+
+On macOS:
+
+    brew install pkg-config ragel gtk-doc freetype glib cairo meson
+
+Then use meson to build the project like:
+
+    meson build && meson test -Cbuild
+
+On Windows, meson can build the project like above if a working MSVC's cl.exe
+(`vcvarsall.bat`) or gcc/clang is already on your path, and if you use
+something like `meson build --wrap-mode=default` it fetches and compiles most
+of the dependencies also.  It is recommended to install CMake either manually
+or via the Visual Studio installer when building with MSVC, using meson.
+
+Our CI configurations are also a good source of learning how to build HarfBuzz.
+
+There is also amalgamated source provided with HarfBuzz which reduces whole process
+of building HarfBuzz to `g++ src/harfbuzz.cc -fno-exceptions` but there is
+no guarantee provided with buildability and reliability of features you get.
