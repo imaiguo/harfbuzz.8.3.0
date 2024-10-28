@@ -193,6 +193,10 @@ set (project_extra_sources)
 set (project_headers ${HB_BASE_headers})
 set (subset_project_headers ${HB_SUBSET_headers})
 
+if(NOT CMAKE_SYSTEM_NAME MATCHES “Linux”)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /bigobj")
+endif()
+
 ## Find and include needed header folders and libraries
 if (HB_HAVE_FREETYPE AND NOT TARGET freetype)
   include (FindFreetype)
